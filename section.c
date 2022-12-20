@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <string.h>
 #include "elf.h"
-#include "/home/e/elbahrab/Téléchargements/student_elf_linker-1.0/elf_linker-1.0/util.h"
 
 void read_section(FILE *f, Elf32_Shdr section_tab[],uint32_t offset,uint32_t nb_sect){
     
@@ -25,7 +24,6 @@ void read_section(FILE *f, Elf32_Shdr section_tab[],uint32_t offset,uint32_t nb_
 
     }
 
-    return;
 }
 
 
@@ -106,7 +104,7 @@ void afficheTableSections (FILE *f,Elf32_Ehdr ehdr, Elf32_Shdr *section) {
       printf("HIUSER\t   ");
       break;
     default :
-      printf("??\t");
+      printf("  \t");
     }
     printf("%08x    ", section[i].sh_addr);
     printf("%06x    ", section[i].sh_offset);
@@ -156,6 +154,7 @@ void afficheTableSections (FILE *f,Elf32_Ehdr ehdr, Elf32_Shdr *section) {
     printf("%u\n", section[i].sh_addralign);
     
     }
+    free(tmp);
 }
 
 int main(int argc, char *argv[])
@@ -167,6 +166,7 @@ int main(int argc, char *argv[])
   read_section(f,s,header.e_shoff,header.e_shnum);
   afficheTableSections(f,header, s);
   printf("\nKeyto flas :\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info), L (link order), O (extra OS processing required), G (group), T (TLS),\n C (compressed), x (unknow),  o (OS specific), E (exclude), D (mbind), y (purecode), P (processor specific), \n");
+  free(s);
   fclose(f);
   return 0;
 }
