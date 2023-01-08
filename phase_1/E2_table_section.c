@@ -27,7 +27,7 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
     }
     printf("There are %u section headers, starting at offset 0x%x\n\n", ehdr.e_shnum, ehdr.e_shoff);
     printf("Section Headers:\n");
-    printf("  [Nr]  Name\t\t      Type\tAddr\t    Off\t      Size\tES\tFLG\tLK\tINF\tAL\n");
+    printf("  [Nr]  Name\t\t      Type\t\tAddr\t Off\tSize   ES FLG\tLK\tINF\tAL\n");
     // On affiche toutes les sections de 0 à shnum
     for (uint16_t i = 0; i < ehdr.e_shnum; i++)
     {
@@ -35,6 +35,7 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
         printf("  [%2d]  ", i);
 
         printf(" %s", tmp + section[i].sh_name);
+        //boucle pour créer des espaces 
         for (int k = strlen(tmp + section[i].sh_name); k < 21; k++)
         {
             printf(" ");
@@ -92,10 +93,11 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
         default:
             printf("  \t");
         }
-        printf("%08x    ", section[i].sh_addr);
-        printf("%06x    ", section[i].sh_offset);
-        printf("%06x    ", section[i].sh_size);
-        printf("%02x      ", section[i].sh_entsize);
+        printf("\t");
+        printf("%08x ", section[i].sh_addr);
+        printf("%06x ", section[i].sh_offset);
+        printf("%06x ", section[i].sh_size);
+        printf("%02x ", section[i].sh_entsize);
         if (section[i].sh_flags & SHF_WRITE)
             printf("W");
 
@@ -138,26 +140,17 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
         if (section[i].sh_flags & SHF_EXCLUDE)
             printf("E");
 
-        if (section[i].sh_flags)
-        {
-            for (int k = 0; k < 8; k++)
-            {
-                printf(" ");
-            }
-        }
-        else
-        {
-            for (int k = 0; k < 10; k++)
-            {
-                printf(" ");
-            }
-        }
+        printf("\t");
 
-        printf("%d\t", section[i].sh_link);
-        printf("%d\t", section[i].sh_info);
+        printf("%d  ", section[i].sh_link);
+        printf("\t");
+        printf("%d", section[i].sh_info);
+        printf("\t");
         printf("%u\n", section[i].sh_addralign);
     }
     free(tmp);
 }
+
+
 
 
