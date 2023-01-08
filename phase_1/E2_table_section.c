@@ -15,16 +15,9 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
         printf("Impossible d'afficher la table des symboles \n");
         exit(0);
     }
-    if (fseek(f, tableName.sh_offset, SEEK_SET))
-    {
-        printf("Valeur de l'offset de cette section trop grande\n");
-        exit(0);
-    }
-    if (!fread(tmp, 1, tableName.sh_size, f))
-    {
-        printf("Taille de cette section trop grande pour ce fichier, impossible de lire les valeurs\n");
-        exit(0);
-    }
+    fseek(f, tableName.sh_offset, SEEK_SET);
+    fread(tmp, 1, tableName.sh_size, f);
+    
     printf("There are %u section headers, starting at offset 0x%x\n\n", ehdr.e_shnum, ehdr.e_shoff);
     printf("Section Headers:\n");
     printf("  [Nr]  Name\t\t      Type\t\tAddr\t Off\tSize   ES FLG\tLK\tINF\tAL\n");
