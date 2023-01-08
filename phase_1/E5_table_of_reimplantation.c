@@ -10,14 +10,38 @@ void afficher_type(int type)
 {
     switch (type)
     {
+    case 0:
+        printf("  R_386_NONE");
+        break;
+    case 1:
+        printf("  R_386_32");
+        break;
     case 2:
-        printf("  R_ARM_ABS32");
+        printf("  R_386_PC32");
+        break;
+    case 3:
+        printf("  R_386_GOT32");
+        break;
+    case 4:
+        printf("  R_386_PLT32");
         break;
     case 5:
-        printf("  R_ARM_ABS16");
+        printf("  R_386_COPY");
+        break;
+    case 6:
+        printf("  R_386_GLOB_DAT");
+        break;
+    case 7:
+        printf("  R_386_JMP_SLOT");
         break;
     case 8:
-        printf("  R_ARM_ABS8");
+        printf("  R_386_RELATIVE");
+        break;
+    case 9:
+        printf("  R_386_GOTOFF");
+        break;
+    case 10:
+        printf("  R_386_GOTPC");
         break;
     case 0x1c:
         printf("  R_ARM_CALL");
@@ -34,21 +58,8 @@ void afficheTableReimplentation(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *s)
 {
     Elf32_Shdr tableName = s[ehdr.e_shstrndx];
     char *tmp = malloc(tableName.sh_size);
-    if (tmp == NULL)
-    {
-        printf("Impossible d'afficher la table des symboles \n");
-        exit(0);
-    }
-    if (fseek(f, tableName.sh_offset, SEEK_SET))
-    {
-        printf("Valeur de l'offset de cette section trop grande\n");
-        exit(0);
-    }
-    if (!fread(tmp, 1, tableName.sh_size, f))
-    {
-        printf("Taille de cette section trop grande pour ce fichier, impossible de lire les valeurs\n");
-        exit(0);
-    }
+    fseek(f, tableName.sh_offset, SEEK_SET);
+    fread(tmp, 1, tableName.sh_size, f);
     for (int i = 0; i < ehdr.e_shnum; i++)
     {
         if (s[i].sh_type == 4)
@@ -57,21 +68,9 @@ void afficheTableReimplentation(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *s)
             printf("Relocation section ' %s ' at offset 0x%x contains %d entries :\n", tmp + s[i].sh_name, s[i].sh_offset, nbElt);
             printf("  Offset      Info           Type           Addenda\n");
             Elf32_Rela *relaTab = malloc(s[i].sh_size);
-            if (relaTab == NULL)
-            {
-                printf("Pas assez de place mémoire pour réserver la table de réimplentation\n");
-                exit(0);
-            }
-            if (fseek(f, s[i].sh_offset, SEEK_SET))
-            {
-                printf("Valeur de l'offset de cette section trop grande\n");
-                exit(0);
-            }
-            if (!fread(relaTab, 1, s[i].sh_size, f))
-            {
-                printf("Taille de cette section trop grande pour ce fichier, impossible de lire les valeurs\n");
-                exit(0);
-            }
+            
+            fseek(f, s[i].sh_offset, SEEK_SET);
+            fread(relaTab, 1, s[i].sh_size, f);
             for (int j = 0; j < nbElt; j++)
             {
                 printf("%08x  ", relaTab[j].r_offset);
@@ -97,21 +96,10 @@ void afficheTableReimplentation(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *s)
             printf("Relocation section ' %s ' at offset 0x%x contains %d entries :\n", tmp + s[i].sh_name, s[i].sh_offset, nbElt);
             printf(" Offset   Info        Type\n");
             Elf32_Rel *relTab = malloc(s[i].sh_size);
-            if (relTab == NULL)
-            {
-                printf("Pas assez de place mémoire pour réserver la table de réimplentation\n");
-                exit(0);
-            }
-            if (fseek(f, s[i].sh_offset, SEEK_SET))
-            {
-                printf("Valeur de l'offset de cette section trop grande\n");
-                exit(0);
-            }
-            if (!fread(relTab, 1, s[i].sh_size, f))
-            {
-                printf("Taille de cette section trop grande pour ce fichier, impossible de lire les valeurs\n");
-                exit(0);
-            }
+            
+            fseek(f, s[i].sh_offset, SEEK_SET);
+            fread(relTab, 1, s[i].sh_size, f);
+            
             for (int k = 0; k < nbElt; k++)
             {
                 printf(" %08x  ", relTab[k].r_offset);
