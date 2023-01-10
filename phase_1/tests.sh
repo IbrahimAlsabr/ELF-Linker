@@ -13,13 +13,11 @@ function ver_header()
     grep -v "OS/ABI:" resultat_projet_p2.txt > resultat_projet.txt
 	grep -v "OS/ABI:" resultat_commande_p2.txt > resultat_commande.txt
 
-    #comparaison et redirection du resultat
-	diff resultat_projet.txt resultat_commande.txt 
+	echo -e "\033[31m ENTETE \033[0m"
+	diff -b resultat_projet.txt resultat_commande.txt 
 	if [[ $? -eq 0 ]]
 	then
-		echo "headers identiques"
-	else
-		echo "headers differents"
+		echo -e "\033[32m headers identiques \033[0m"
 	fi
 	echo ""
 }
@@ -30,26 +28,23 @@ function ver_sect_table()
 {	./main $1 -S > resultat_projet.txt
 	arm-none-eabi-readelf -S $1 > resultat_commande.txt
 	
-	diff resultat_projet.txt resultat_commande.txt 
+	echo -e "\033[31m TABLE SECTIONS \033[0m"
+	diff -b resultat_projet.txt resultat_commande.txt 
 	if [[ $? -eq 0 ]]
 	then
-		echo "tables section identiques"
-	else
-		echo "tables section differents"
+		echo -e "\033[32m table sections identique \033[0m"
 	fi
 }
 
 # verification de la table des symboles
 function ver_symb_table()
 {	./main $1 -s > resultat_projet.txt
-	readelf -s $1 > resultat_commande.txt
-	
-	diff resultat_projet.txt resultat_commande.txt > /dev/null
+	arm-none-eabi-readelf -s $1 > resultat_commande.txt
+	echo -e "\033[31m TABLE SYMBOLES \033[0m"
+	diff -b resultat_projet.txt resultat_commande.txt 
 	if [[ $? -eq 0 ]]
 	then
-		echo "tables symbole identique"
-	else
-		echo "tables symbole differentes"
+		echo -e "\033[32m table symboles identique \033[0m"
 	fi
 	echo ""
 }
@@ -57,15 +52,22 @@ function ver_symb_table()
 
 # verification de la table de reimplentation
 function ver_reimp_table()
-{	./main $1 -r > resultat_projet.txt
-	readelf -r $1 > resultat_commande.txt
+{	./main $1 -r > resultat_projet_p.txt
+	arm-none-eabi-readelf -r $1 > resultat_commande_p.txt
 	
-	diff resultat_projet.txt resultat_commande.txt > /dev/null
+	grep -v "section" resultat_projet_p.txt > resultat_projet_p2.txt
+	grep -v "section" resultat_commande_p.txt > resultat_commande_p2.txt
+
+	grep -v "Offset" resultat_projet_p2.txt > resultat_projet_p3.txt
+	grep -v "Offset" resultat_commande_p2.txt > resultat_commande_p3.txt
+
+	cut -d ' ' -f 1-4 resultat_commande_p3.txt > resultat_commande_p4.txt
+
+	echo -e "\033[31m TABLES REIMPLANTATION \033[0m"
+	diff -b resultat_projet_p3.txt resultat_commande_p4.txt 
 	if [[ $? -eq 0 ]]
 	then
-		echo "tables reimplentation identique"
-	else
-		echo "tables reimplentation differentes"
+		echo -e "\033[32m tables reimplentation identique \033[0m"
 	fi
 	echo ""
 }
