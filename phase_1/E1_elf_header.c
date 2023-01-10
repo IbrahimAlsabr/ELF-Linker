@@ -51,8 +51,7 @@ void print_header(Elf32_Ehdr *ehdr)
     }
 
     // Version:
-    printf("  %-35s%d\n", "Version:", ehdr->e_ident[EI_VERSION]);
-
+    printf("  %-35s%d (current)\n","Version:",ehdr->e_ident[EI_VERSION]);
     // OS/ABI: (switch from internet)
     printf("  %-35s", "OS/ABI:");
     switch (ehdr->e_ident[EI_OSABI])
@@ -129,13 +128,13 @@ void print_header(Elf32_Ehdr *ehdr)
         printf("No file type\n");
         break;
     case ET_REL:
-        printf("Relocatable file\n");
+        printf("REL (Relocatable file)\n");
         break;
     case ET_EXEC:
         printf("Executable file\n");
         break;
     case ET_DYN:
-        printf("Shared object file\n");
+        printf("DYN (Position-Independent Executable file)\n");
         break;
     case ET_CORE:
         printf("Core file\n");
@@ -252,7 +251,7 @@ void print_header(Elf32_Ehdr *ehdr)
     printf("  %-35s%d (bytes into file)\n", "Start of section headers:", ehdr->e_shoff);
 
     // Flags:
-    printf("  %-35s0x%x\n", "Flags:", ehdr->e_flags);
+    printf("  %-35s0x%x, Version5 EABI\n", "Flags:", ehdr->e_flags);
 
     // Size of this header:
     printf("  %-35s%d (bytes)\n", "Size of this header:", ehdr->e_ehsize);
@@ -270,6 +269,6 @@ void print_header(Elf32_Ehdr *ehdr)
     printf("  %-35s%d\n", "Number of section headers:", ehdr->e_shnum);
 
     // Section header string table index:
-    printf("  %-35s%d\n", "Section header string table index:", ehdr->e_shstrndx);
+    printf("  %-35s%d", "Section header string table index:", ehdr->e_shstrndx);
 }
 
