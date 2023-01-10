@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <getopt.h>
@@ -73,7 +72,7 @@ int main(int argc, char *argv[])
         else
         {
             /*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*/
-            printf("File: %s\n", file);
+            //printf("File: %s\n", file);
             Elf32_Ehdr ehdr;
 
             FILE *f = fopen(file, "rb");
@@ -106,7 +105,7 @@ int main(int argc, char *argv[])
                 if (hflag)
                 {
                         print_header(&ehdr);
-                        printf("\n\n");
+                        printf("\n");
                 }
                 /* Affichage de la table des sections */
                 if (Sflag)
@@ -114,9 +113,9 @@ int main(int argc, char *argv[])
                     Elf32_Shdr *s = malloc(ehdr.e_shnum * ehdr.e_shentsize);
                     read_section(f, s, ehdr.e_shoff, ehdr.e_shnum);
                     afficheTableSections(f, ehdr, s);
-                    printf("\nKeyto flas :\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info), L (link order), O (extra OS processing required), G (group), T (TLS),\n C (compressed), x (unknow),  o (OS specific), E (exclude), D (mbind), y (purecode), P (processor specific), \n");
+                    printf("Key to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), y (purecode), p (processor specific)\n");
                     free(s);
-                    printf("\n\n");
+                    printf("\n");
                 }
 
                 /*  Affichage de la table des symboles */
@@ -153,12 +152,12 @@ int main(int argc, char *argv[])
                 /* Affichage de la table des symboles */
                 if (sflag)
                 {
-
-                    // fread(&ehdr, 1, sizeof(ehdr), f);
+                    
                     Elf32_Shdr *s = malloc(ehdr.e_shnum * ehdr.e_shentsize);
                     read_section(f, s, ehdr.e_shoff, ehdr.e_shnum);
-                    read_table_symbol(f, ehdr, s);
-                    printf("\n\n");
+
+                    read_table_symbol(f, ehdr,s);
+                    printf("\n");
                 }
 
                 /* Affichage des tables de réimplantation */
@@ -166,9 +165,10 @@ int main(int argc, char *argv[])
                 {
                     Elf32_Shdr *s = malloc(ehdr.e_shnum * ehdr.e_shentsize);
                     read_section(f, s, ehdr.e_shoff, ehdr.e_shnum);
+
                     afficheTableReimplentation(f, ehdr, s);
                     free(s);
-                    printf("\n\n");
+                    //printf("\n");
                 }
             }
             fclose(f);
