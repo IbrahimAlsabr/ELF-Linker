@@ -72,6 +72,21 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
         case 11:
             printf("DYNSYM  ");
             break;
+        case 14:
+   	    printf("INIT_ARRAY  ");
+            break;
+	    case 15:
+            printf("FINI_ARRAY  ");
+	        break;
+	    case 16:
+	    printf("PREINIT_ARRAY  ");
+            break;
+	    case 17:
+            printf("GROUP  ");
+	        break;
+	    case 18:
+	    printf("SYMTAB_SHNDX  ");
+	        break;
         case 0x70000000:
             printf("LOPROC   ");
             break;
@@ -83,6 +98,9 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
             break;
         case 0xffffffff:
             printf("HIUSER   ");
+            break;
+        case 0x70000003:
+            printf("ARM_ATTRIBUTES   ");
             break;
         default:
             printf("         ");
