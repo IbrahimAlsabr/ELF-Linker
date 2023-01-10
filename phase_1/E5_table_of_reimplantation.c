@@ -49,8 +49,11 @@ void afficher_type(int type)
     case 0x1d:
         printf("R_ARM_JUMP24");
         break;
+    case 0x28:
+        printf("R_ARM_V4BX");
+        break;
     default:
-        printf("    ");
+        printf("  %X  ",type);
     }
 }
 
