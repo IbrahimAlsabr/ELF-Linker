@@ -9,9 +9,9 @@
 
 #include "readelf.h"
 
-void affichesymbol(Elf32_Sym s, int i, char *strtab); 
+void affichesymbol(Elf32_Sym s, int i); 
 
-void read_table_symbol(FILE *f, Elf32_Ehdr header); 
+void read_table_symbol(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *shdr); 
 
 
 #endif 

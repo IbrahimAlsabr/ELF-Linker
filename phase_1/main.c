@@ -155,8 +155,9 @@ int main(int argc, char *argv[])
                 {
 
                     // fread(&ehdr, 1, sizeof(ehdr), f);
-
-                    read_table_symbol(f, ehdr);
+                    Elf32_Shdr *s = malloc(ehdr.e_shnum * ehdr.e_shentsize);
+                    read_section(f, s, ehdr.e_shoff, ehdr.e_shnum);
+                    read_table_symbol(f, ehdr, s);
                     printf("\n\n");
                 }
 
