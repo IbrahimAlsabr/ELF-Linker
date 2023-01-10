@@ -100,12 +100,12 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section)
             printf("HIUSER   ");
             break;
         case 0x70000003:
-            printf("ARM_ATTRIBUTES   ");
+            printf("ARM_ATTRIBUTES");
             break;
         default:
             printf("         ");
         }
-        printf("   \t   ");
+        printf("\t   ");
         printf("%08x ", section[i].sh_addr);
         printf("%06x ", section[i].sh_offset);
         printf("%06x ", section[i].sh_size);
