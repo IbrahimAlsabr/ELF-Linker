@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
                     afficheTableSections(f, ehdr, s);
                     printf("Key to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), y (purecode), p (processor specific)\n");
                     free(s);
-                    printf("\n");
+                    //printf("\n");
                 }
 
                 /*  Affichage de la table des symboles */
@@ -157,7 +157,7 @@ int main(int argc, char *argv[])
                     read_section(f, s, ehdr.e_shoff, ehdr.e_shnum);
 
                     read_table_symbol(f, ehdr,s);
-                    printf("\n");
+                    //printf("\n");
                 }
 
                 /* Affichage des tables de réimplantation */
