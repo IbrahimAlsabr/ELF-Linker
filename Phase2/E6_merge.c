@@ -78,7 +78,7 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section,FILE *f2
     char *section_name_table = read_section_name_table(f, shstrtab);
     /////////
     if(k==0){
-    printf("There are %u section headers, starting at offset 0x%x:\n\n", ehdr.e_shnum, ehdr.e_shoff);
+    //printf("There are %u section headers, starting at offset 0x%x:\n\n", ehdr.e_shnum, ehdr.e_shoff);
     printf("Section Headers:\n");
     printf("  [Nr] Name\t\t   Type\t\t   Addr\t    Off\t   Size   ES Flg Lk Inf Al\n");}
     // On affiche toutes les sections de 0 à shnum
@@ -263,12 +263,12 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section,FILE *f2
     
     /////////
     if(k==0){
-    printf("There are %u section headers, starting at offset 0x%x:\n\n", ehdr.e_shnum, ehdr.e_shoff);
     printf("Section Headers:\n");
     printf("  [Nr] Name\t\t   Type\t\t   Addr\t    Off\t   Size   ES Flg Lk Inf Al\n");}
     // On affiche toutes les sections de 0 à shnum
     for (uint16_t i = 0; i < ehdr.e_shnum; i++){    
                 int l=0;
+
                 if(find_section_by_name(section2, section_name_table2, ehdr.e_shnum,tmp + section[i].sh_name )==-1){
         // int j =section[i].sh_name;
         printf("  [%2d] ", k);k++;
@@ -409,6 +409,9 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section,FILE *f2
         printf("%d  ", section[i].sh_info);
         //printf("\t");
         printf("%u\n", section[i].sh_addralign);
+    }
+    if(i==ehdr.e_shnum-1){
+    printf("There are %u section headers, starting at offset 0x%llx:\n\n", k, (unsigned long long)ehdr.e_shoff+ehdr2.e_shoff);
     }}
     //2nd file
     free(tmp);
