@@ -172,11 +172,9 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section,FILE *f2
         char *section_name_table2 = read_section_name_table(f2, shstrtab2);
 
         if(find_section_by_name(section2, section_name_table2, ehdr.e_shnum,tmp + section[i].sh_name )!=-1){
-            printf("n");
             l=find_section_by_name(section2, section_name_table2, ehdr.e_shnum,tmp + section[i].sh_name );
             printf("%06x ",(unsigned int)section[i].sh_offset^ section2[l].sh_offset);
             printf("%06x ", section[i].sh_size+section2[l].sh_size);
-            printf("%02x  ", section[i].sh_entsize+section2[l].sh_entsize);
         /*}
         else if(find_section_by_name(section2, section_name_table2, ehdr.e_shnum,tmp + section[i].sh_name )!=-1){
             printf("%06x ", section[i].sh_offset);
@@ -186,8 +184,9 @@ void afficheTableSections(FILE *f, Elf32_Ehdr ehdr, Elf32_Shdr *section,FILE *f2
         else{
             printf("%06x ", section[i].sh_offset);
             printf("%06x ", section[i].sh_size);
-            printf("%02x  ", section[i].sh_entsize);
         }
+                    printf("%02x  ", section[i].sh_entsize);
+
         int cmpt=14;
         if (section[i].sh_flags & SHF_WRITE)
             printf("W");
